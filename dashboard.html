@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resultados · Encuesta sobre la IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FDFCF8;--card:#FFFFFF;--fg:#212338;--muted:#6B6C7B;--border:#E4E4E0;--green:#18CA80;--green-soft:#E6F8F0;--coral:#F2562D;--coral-soft:#FEEEEE;--amber:#FCB034;--track:#F2F1EC;--radius:14px;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.45 "Outfit",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 48px}
+.top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:22px}
+h1{margin:0;font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+.sub{margin:4px 0 0;color:var(--muted)}
+.actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.stamp{font-size:13px;color:var(--muted)}
+.btn{font:500 14px "Outfit",system-ui,sans-serif;height:38px;padding:0 18px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);color:var(--fg);cursor:pointer}
+.btn:hover:not(:disabled){border-color:var(--green)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.stats,.charts{grid-template-columns:1fr}
+@media(min-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.charts{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);min-width:0}
+.card-header{padding:18px 20px 0}
+.card-title{margin:0;font-size:14px;font-weight:500;color:var(--muted)}
+.card-title.lg{font-size:16px;font-weight:600;color:var(--fg)}
+.card-desc{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.card-content{padding:10px 20px 20px}
+.big{font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.note{font-size:13px;color:var(--muted);margin-top:6px}
+.skel{display:block;border-radius:8px;background:linear-gradient(90deg,var(--track),#fff,var(--track));background-size:200% 100%;animation:sh 1.2s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 18px;border-radius:var(--radius);margin-bottom:16px;font-size:14px}
+.banner.err{background:var(--coral-soft);border:1px solid #F7C9C2}
+.banner.info{background:var(--green-soft);border:1px solid #BDEBD6}
+.banner b{font-weight:600}
+.mini{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.mini-row{display:grid;grid-template-columns:30px 1fr 22px;gap:8px;align-items:center;font-size:13px}
+.mini-track{height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.mini-fill{display:block;height:100%;border-radius:99px;background:var(--green)}
+.mini-row.top .mini-fill{background:var(--amber)}
+.mini-n{text-align:right;color:var(--muted)}
+.chart-box{height:260px;min-width:0}
+.empty{height:260px;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:14px;padding:0 24px}
+.table-wrap{overflow-x:auto}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th{text-align:left;font-weight:500;color:var(--muted);font-size:13px;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+.table td{padding:12px;border-bottom:1px solid var(--track)}
+.table tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12.5px;font-weight:500}
+.badge-yes{background:var(--green-soft);color:#0B7A4B}
+.badge-no{background:var(--coral-soft);color:#B63A1A}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.pager div{display:flex;gap:8px}
+.foot{margin-top:24px;font-size:13px;color:var(--muted);text-align:center}
+@media(max-width:640px){
+  .wrap{padding:20px 14px 40px}
+  .actions{align-items:flex-start;width:100%}
+  .table thead{display:none}
+  .table tr{display:block;padding:10px 0;border-bottom:1px solid var(--border)}
+  .table tr:last-child{border-bottom:0}
+  .table td{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border:0}
+  .table td::before{content:attr(data-label);color:var(--muted);font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="root"><p class="sub">Cargando panel…</p></div>
+<noscript>Este panel necesita JavaScript.</noscript>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.js"></script>
+<script>
+/* ===== CONFIGURACIÓN: dirección del proyecto y clave PÚBLICA (publishable). Nunca pongas aquí una clave secret. ===== */
+var SUPABASE_URL="https://dlkariaqmzzmsdvghfsl.supabase.co";
+var SUPABASE_KEY="sb_publishable_LoYMFrUtsCf_E8SSap1ayg_2QPLLH6y";
+
+var h=React.createElement, useState=React.useState, useEffect=React.useEffect, useCallback=React.useCallback;
+var cx=function(){return Array.prototype.filter.call(arguments,Boolean).join(" ");};
+var PAGE=10, GRADOS=["7.º","8.º","9.º","10.º","11.º","12.º"], INTERESES=["Sus beneficios","Sus riesgos"];
+var C={green:"#18CA80",coral:"#F2562D",muted:"#6B6C7B",grid:"#E4E4E0"};
+
+/* ---- Componentes de interfaz: estructura y tokens adaptados de shadcn/ui (licencia MIT): Card, Badge y Table ---- */
+function Card(p){return h("div",{className:cx("card",p.className)},p.children);}
+function CardHeader(p){return h("div",{className:"card-header"},p.children);}
+function CardTitle(p){return h("h3",{className:cx("card-title",p.lg&&"lg")},p.children);}
+function CardDescription(p){return h("p",{className:"card-desc"},p.children);}
+function CardContent(p){return h("div",{className:"card-content"},p.children);}
+function Badge(p){return h("span",{className:"badge badge-"+p.tone},p.children);}
+function Table(p){return h("div",{className:"table-wrap"},h("table",{className:"table"},p.children));}
+function TableCell(p){return h("td",{"data-label":p.label},p.children);}
+
+/* ---- Datos: consulta real a Supabase (solo columnas necesarias; sin género) ---- */
+function loadRows(signal){
+  var q="select=id,created_at,alias,edad,grado,interes,opinion&order=created_at.desc&limit=1000";
+  return fetch(SUPABASE_URL+"/rest/v1/respuestas?"+q,{headers:{apikey:SUPABASE_KEY},signal:signal}).then(function(r){
+    if(!r.ok){var e=new Error("http");e.status=r.status;throw e;}
+    return r.json();
+  }).then(function(d){if(!Array.isArray(d)){throw new Error("formato");}return d;});
+}
+function errMsg(e){
+  if(e&&e.status===401||e&&e.status===403) return "La base de datos rechazó la consulta (permisos o clave). Avísale a quien administra el proyecto.";
+  if(e&&e.status) return "La base de datos respondió con un error ("+e.status+"). Inténtalo de nuevo en un momento.";
+  return "No hay conexión con la base de datos. Revisa tu internet. Si abriste esta página dentro de Claude, esa conexión está bloqueada: ábrela desde su enlace público.";
+}
+
+/* ---- Métricas: todo se calcula a partir de las filas reales ---- */
+function stats(rows){
+  var n=rows.length, ed=rows.map(function(r){return r.edad;}).filter(function(x){return typeof x==="number"&&isFinite(x);});
+  var avg=ed.length?ed.reduce(function(a,b){return a+b;},0)/ed.length:null;
+  function cnt(f){return rows.filter(f).length;}
+  var favor=cnt(function(r){return r.opinion==="Sí";}), contra=cnt(function(r){return r.opinion==="No";});
+  var grados=GRADOS.map(function(g){return {g:g,n:cnt(function(r){return r.grado===g;})};});
+  var maxG=Math.max.apply(null,grados.map(function(x){return x.n;}));
+  var por=INTERESES.map(function(i){return {name:i,"A favor":cnt(function(r){return r.interes===i&&r.opinion==="Sí";}),"En contra":cnt(function(r){return r.interes===i&&r.opinion==="No";})};});
+  var top=null;
+  if(n>0){var m=Math.max(favor,contra);top={tie:favor===contra,label:favor===contra?"Empate":(favor>contra?"Sí":"No"),n:m,pct:Math.round(m/n*100)};}
+  return {n:n,avg:avg,favor:favor,contra:contra,grados:grados,maxG:maxG,por:por,top:top};
+}
+var fmtDate=function(s){var d=new Date(s);return isNaN(d)?"—":d.toLocaleString("es-MX",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});};
+
+/* ---- Piezas visuales ---- */
+function Skel(p){return h("span",{className:"skel",style:{width:p.w||"60%",height:p.h||34}});}
+function StatCard(p){
+  return h(Card,null,h(CardHeader,null,h(CardTitle,null,p.title),h(CardDescription,null,p.desc)),
+    h(CardContent,null,p.loading?h(Skel,null):h("div",{className:"big"},p.value),p.loading?null:h("div",{className:"note"},p.note)));
+}
+function GradeCard(p){
+  var s=p.s;
+  return h(Card,null,h(CardHeader,null,h(CardTitle,null,"Registros por grado"),h(CardDescription,null,"Pregunta 4 · Grado escolar")),
+    h(CardContent,null,p.loading?h(Skel,{w:"100%",h:96}):h("div",{className:"mini"},s.grados.map(function(x){
+      var w=s.maxG?Math.round(x.n/s.maxG*100):0;
+      return h("div",{key:x.g,className:cx("mini-row",s.maxG>0&&x.n===s.maxG&&"top")},
+        h("span",null,x.g),h("span",{className:"mini-track"},h("span",{className:"mini-fill",style:{width:w+"%"}})),h("span",{className:"mini-n"},x.n));}))));
+}
+function ChartCard(p){
+  var R=window.Recharts, body;
+  if(p.loading) body=h(Skel,{w:"100%",h:260});
+  else if(p.empty) body=h("div",{className:"empty"},p.failed?"Sin datos por el error de conexión.":"Todavía no hay respuestas para graficar.");
+  else if(!R) body=h("div",{className:"empty"},"No se pudo cargar la biblioteca de gráficos. Recarga la página.");
+  else body=h("div",{className:"chart-box",role:"img","aria-label":p.label},
+    h(R.ResponsiveContainer,{width:"100%",height:"100%"},
+      h(R.BarChart,{data:p.data,margin:{top:18,right:8,left:-18,bottom:0}},
+        h(R.CartesianGrid,{strokeDasharray:"3 3",vertical:false,stroke:C.grid}),
+        h(R.XAxis,{dataKey:"name",tickLine:false,axisLine:false,tick:{fill:C.muted,fontSize:12}}),
+        h(R.YAxis,{allowDecimals:false,tickLine:false,axisLine:false,tick:{fill:C.muted,fontSize:12}}),
+        h(R.Tooltip,{cursor:{fill:"rgba(33,35,56,.04)"},contentStyle:{borderRadius:10,border:"1px solid "+C.grid,fontFamily:"Outfit,system-ui,sans-serif"}}),
+        p.series?h(R.Legend,{iconType:"circle"}):null,
+        p.series?p.series.map(function(s){return h(R.Bar,{key:s.k,dataKey:s.k,fill:s.c,radius:[8,8,0,0],maxBarSize:56},h(R.LabelList,{dataKey:s.k,position:"top",fill:C.muted,fontSize:12}));})
+          :h(R.Bar,{dataKey:"value",radius:[8,8,0,0],maxBarSize:80},p.data.map(function(d,i){return h(R.Cell,{key:i,fill:d.fill});}),h(R.LabelList,{dataKey:"value",position:"top",fill:C.muted,fontSize:12})))));
+  return h(Card,null,h(CardHeader,null,h(CardTitle,{lg:true},p.title),h(CardDescription,null,p.desc)),
+    h(CardContent,null,body,(!p.loading&&!p.empty)?h("div",{className:"note"},p.caption):null));
+}
+function RowsTable(p){
+  var rows=p.rows, pages=Math.max(1,Math.ceil(rows.length/PAGE)), pg=Math.min(p.page,pages-1), slice=rows.slice(pg*PAGE,pg*PAGE+PAGE);
+  var body;
+  if(p.loading) body=h(Skel,{w:"100%",h:120});
+  else if(p.failed) body=h("div",{className:"empty"},"Sin datos por el error de conexión.");
+  else if(!rows.length) body=h("div",{className:"empty"},"Todavía no hay respuestas. Abre el formulario, envía una respuesta y recarga esta página.");
+  else body=h(React.Fragment,null,
+    h(Table,null,
+      h("thead",null,h("tr",null,["Fecha","Alias","Edad","Grado","Interés","Opinión"].map(function(t){return h("th",{key:t},t);}))),
+      h("tbody",null,slice.map(function(r){return h("tr",{key:r.id},
+        h(TableCell,{label:"Fecha"},fmtDate(r.created_at)),h(TableCell,{label:"Alias"},r.alias),h(TableCell,{label:"Edad"},r.edad),
+        h(TableCell,{label:"Grado"},r.grado),h(TableCell,{label:"Interés"},r.interes),
+        h(TableCell,{label:"Opinión"},h(Badge,{tone:r.opinion==="Sí"?"yes":"no"},r.opinion==="Sí"?"Sí":"No")));}))),
+    h("div",{className:"pager"},h("span",null,"Mostrando "+(pg*PAGE+1)+"–"+(pg*PAGE+slice.length)+" de "+rows.length),
+      h("div",null,h("button",{className:"btn",disabled:pg===0,onClick:function(){p.setPage(pg-1);}},"Anterior"),
+        h("button",{className:"btn",disabled:pg>=pages-1,onClick:function(){p.setPage(pg+1);}},"Siguiente"))));
+  return h(Card,null,h(CardHeader,null,h(CardTitle,{lg:true},"Respuestas registradas"),h(CardDescription,null,"Solo alias ficticios · más recientes primero")),h(CardContent,null,body));
+}
+
+/* ---- Vista completa (recibe el estado; no consulta nada por sí sola) ---- */
+function View(p){
+  var loading=p.status==="loading"&&!p.rows.length, s=stats(p.rows), ok=p.status==="ok", empty=ok&&s.n===0, failed=p.status==="error";
+  var top=s.top?(s.top.tie?"Sí y No":s.top.label):"—";
+  return h(React.Fragment,null,
+    h("header",{className:"top"},
+      h("div",null,h("h1",null,"Resultados de la encuesta sobre la IA"),h("p",{className:"sub"},"Opiniones de estudiantes · datos en vivo desde la base de datos")),
+      h("div",{className:"actions"},h("button",{className:"btn",onClick:p.onReload,disabled:p.status==="loading"},p.status==="loading"?"Actualizando…":"Actualizar"),
+        h("span",{className:"stamp"},p.at?"Actualizado a las "+p.at.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}):""))),
+    p.status==="error"?h("div",{className:"banner err",role:"alert"},h("span",null,h("b",null,"No se pudieron cargar los datos. "),errMsg(p.error)),h("button",{className:"btn",onClick:p.onReload},"Reintentar")):null,
+    empty?h("div",{className:"banner info"},h("span",null,h("b",null,"Aún no hay respuestas. "),"Envía una desde el formulario y recarga esta página para verla aquí."),null):null,
+    h("section",{className:"grid stats","aria-label":"Resumen"},
+      h(StatCard,{loading:loading,title:"Total de respuestas",desc:"Registros guardados",value:failed?"—":s.n,note:failed?"Sin datos por el error":s.n===1?"1 estudiante ha respondido":s.n+" estudiantes han respondido"}),
+      h(StatCard,{loading:loading,title:"Edad promedio",desc:"Pregunta 2 · Edad",value:s.avg===null?"—":s.avg.toLocaleString("es-MX",{minimumFractionDigits:1,maximumFractionDigits:1})+" años",note:s.avg===null?"Sin datos todavía":"Calculada con "+s.n+" edades"}),
+      h(StatCard,{loading:loading,title:"Opinión más común",desc:"Pregunta 6 · ¿A favor del uso de la IA?",value:top,note:s.top?(s.top.tie?"Mismo número de Sí y No ("+s.top.n+" cada uno)":s.top.pct+" % de las respuestas ("+s.top.n+" de "+s.n+")"):"Sin datos todavía"}),
+      h(GradeCard,{loading:loading,s:s})),
+    h("section",{className:"grid charts","aria-label":"Gráficas"},
+      h(ChartCard,{loading:loading,empty:empty||(!ok&&!loading),failed:failed,title:"¿A favor o en contra de la IA?",desc:"Pregunta 6 · No se ofreció opción neutral",label:"Barras: a favor "+s.favor+", en contra "+s.contra,
+        data:[{name:"A favor (Sí)",value:s.favor,fill:C.green},{name:"En contra (No)",value:s.contra,fill:C.coral}],caption:"A favor: "+s.favor+" · En contra: "+s.contra}),
+      h(ChartCard,{loading:loading,empty:empty||(!ok&&!loading),failed:failed,title:"Opinión según el interés principal",desc:"Pregunta 5 (beneficios o riesgos) × Pregunta 6",label:"Barras agrupadas de opinión por interés",
+        data:s.por,series:[{k:"A favor",c:C.green},{k:"En contra",c:C.coral}],
+        caption:s.por.map(function(x){return x.name+": "+x["A favor"]+" a favor, "+x["En contra"]+" en contra";}).join(" · ")})),
+    h(RowsTable,{loading:loading,failed:failed,rows:p.rows,page:p.page,setPage:p.setPage}),
+    h("p",{className:"foot"},"Solo se muestran alias ficticios. No se recopilan nombres reales ni datos de contacto."));
+}
+
+function App(){
+  var st=useState({status:"loading",rows:[],error:null,at:null}), state=st[0], setState=st[1];
+  var pg=useState(0), page=pg[0], setPage=pg[1];
+  var load=useCallback(function(){
+    setState(function(s){return {status:"loading",rows:s.rows,error:null,at:s.at};});
+    var ctl=new AbortController(), to=setTimeout(function(){ctl.abort();},15000);
+    loadRows(ctl.signal).then(function(rows){clearTimeout(to);setPage(0);setState({status:"ok",rows:rows,error:null,at:new Date()});})
+      .catch(function(e){clearTimeout(to);setState(function(s){return {status:"error",rows:[],error:e,at:s.at};});});
+  },[]);
+  useEffect(function(){load();},[load]);   /* se actualiza cada vez que se abre o recarga la página */
+  return h(View,{status:state.status,rows:state.rows,error:state.error,at:state.at,page:page,setPage:setPage,onReload:load});
+}
+if(typeof document!=="undefined"){ReactDOM.createRoot(document.getElementById("root")).render(h(App));}
+else{window.__dash={View:View,stats:stats};}
+</script>
+</body>
+</html>
